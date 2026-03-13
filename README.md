@@ -152,3 +152,106 @@ def predict(data: list, model=Depends(get_model)):
     
     return {"prediction": pred.tolist()}
 ```
+
+---
+## 7. How does FastAPI automatically generate documentation?
+
+FastAPI uses OpenAPI specification.
+
+Auto docs available at:
+```
+/docs       → Swagger UI
+/redoc      → ReDoc
+```
+
+**Benefits:**
+
+- Easy testing
+- Clear API schema
+- Helps frontend teams
+
+---
+## 8. How do you handle file uploads (important for CV engineers)?
+
+Example: image inference API.
+
+```python
+from fastapi import UploadFile, File
+
+@app.post("/predict-image")
+async def predict_image(file: UploadFile = File(...)):
+
+    contents = await file.read()
+    
+    return {"filename": file.filename}
+```
+**Used for:***
+
+- Image classification
+- OCR
+- Face recognition
+- Object detection
+---
+## 9. How do you deploy FastAPI?
+
+FastAPI runs using ASGI servers.
+
+Common deployment:
+```
+uvicorn main:app --reload
+```
+
+Production:
+
+- Uvicorn + Gunicorn
+- Docker
+- Kubernetes
+- AWS / GCP / Azure
+
+Example:
+`` gunicorn -k uvicorn.workers.UvicornWorker main:app ``
+
+---
+## 10. How do you optimize FastAPI for ML inference?
+
+Good interview answer includes:
+**1. Model loaded once at startup**
+``
+@app.on_event("startup")
+def load_model():
+``
+2. Batch predictions
+3. Use async for I/O
+4. Use caching
+5. GPU inference
+6. Use background tasks
+
+Example:
+
+```python
+from fastapi import BackgroundTasks
+```
+
+---
+## 11. What is middleware in FastAPI?
+Middleware processes request before and after execution.
+
+**Example uses:**
+
+- logging
+- authentication
+- request timing
+
+Example:
+```python
+@app.middleware("http")
+async def log_requests(request, call_next):
+
+    response = await call_next(request)
+
+    return response
+```
+---
+
+## **Practical FastAPI Questions (Very Likely in AI/ML Interviews)**
+
