@@ -254,4 +254,99 @@ async def log_requests(request, call_next):
 ---
 
 ## **Practical FastAPI Questions (Very Likely in AI/ML Interviews)**
+Create a FastAPI API that loads a trained sklearn model and predicts house prices.
 
+Solution
+```python
+from fastapi import FastAPI
+from pydantic import BaseModel
+import joblib
+import numpy as np
+
+app = FastAPI()
+
+model = joblib.load("house_model.pkl")
+
+class HouseFeatures(BaseModel):
+    area: float
+    bedrooms: int
+    bathrooms: int
+
+@app.post("/predict")
+def predict_price(features: HouseFeatures):
+
+    data = np.array([[features.area,
+                      features.bedrooms,
+                      features.bathrooms]])
+
+    prediction = model.predict(data)
+
+    return {
+        "predicted_price": float(prediction[0])
+    }
+```
+Example request:
+
+```bash
+POST /predict
+
+{
+ "area":1200,
+ "bedrooms":3,
+ "bathrooms":2
+}
+```
+
+---
+# **Practical Question 2**
+
+Build a FastAPI endpoint that accepts an image and runs inference using a PyTorch model.
+
+Solution
+```python
+from fastapi import FastAPI, UploadFile, File
+import torch
+from PIL import Image
+import io
+import torchvision.transforms as transforms
+
+app = FastAPI()
+
+model = torch.load("model.pth")
+model.eval()
+
+transform = transforms.Compose([
+    transforms.Resize((224,224)),
+    transforms.ToTensor()
+])
+
+@app.post("/predict-image")
+
+async def predict_image(file: UploadFile = File(...)):
+
+    contents = await file.read()
+
+    image = Image.open(io.BytesIO(contents))
+
+    tensor = transform(image).unsqueeze(0)
+
+    with torch.no_grad():
+        output = model(tensor)
+
+    prediction = torch.argmax(output).item()
+
+    return {
+        "class": prediction
+    }
+```
+
+---
+# Very Smart Answer (Use in Interviews)
+
+When they ask:
+
+**"Why do ML engineers use FastAPI?"**
+
+Answer like this:
+
+``FastAPI is widely used for ML deployment because it supports async execution, automatic validation using Pydantic, high performance through ASGI servers, and auto-generated API documentation. This makes it ideal for exposing machine learning models as production-ready REST APIs.``
