@@ -79,3 +79,35 @@ If client sends:
 ---
 
 ## 4. How do you serve a Machine Learning model using FastAPI?
+
+**Answer:**
+
+Steps:
+
+1. Train model
+
+2. Save model
+
+3. Load model in API
+
+4. Create prediction endpoint
+
+**Example:**
+
+```python
+
+from fastapi import FastAPI
+import joblib
+import numpy as np
+
+app = FastAPI()
+
+model = joblib.load("model.pkl")
+
+@app.post("/predict")
+def predict(data: list):
+    
+    prediction = model.predict([data])
+    
+    return {"prediction": prediction.tolist()}
+```
