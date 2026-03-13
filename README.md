@@ -7,13 +7,9 @@ FastAPI is a modern Python web framework used to build APIs with high performanc
 Key reasons ML engineers use FastAPI:
 
 - Very fast (comparable to NodeJS/Go)
-
 - Automatic data validation using type hints
-
 - Auto-generated API docs (Swagger UI & ReDoc)
-
 - Async support
-
 - Easy model serving
 
 Typical ML workflow:
@@ -22,9 +18,7 @@ Typical ML workflow:
 Example use case:
 
 - Deploying a sentiment analysis model
-
 - Serving computer vision inference
-
 - Hosting LLM inference APIs
 
 ---
@@ -55,9 +49,7 @@ Pydantic is used for data validation and serialization using Python type hints.
 It ensures:
 
 - Correct input format
-
 - Automatic error messages
-
 - Clean request parsing
 
 **Example:**
@@ -85,11 +77,8 @@ If client sends:
 Steps:
 
 1. Train model
-
 2. Save model
-
 3. Load model in API
-
 4. Create prediction endpoint
 
 **Example:**
@@ -128,3 +117,38 @@ async def get_data():
     return {"message": "Hello"}
 ```
 
+### Why important for ML:
+
+- Many users sending requests
+- Avoid blocking during IO operations
+- Better scalability
+
+However:
+
+``ML inference itself is usually CPU/GPU bound, so async mainly helps for I/O operations.``
+
+---
+
+## 6. What is dependency injection in FastAPI?
+
+FastAPI allows reusable components like:
+
+- authentication
+- database session
+- model loading
+
+**Example:**
+
+```python
+from fastapi import Depends
+
+def get_model():
+    return model
+
+@app.post("/predict")
+def predict(data: list, model=Depends(get_model)):
+    
+    pred = model.predict([data])
+    
+    return {"prediction": pred.tolist()}
+```
