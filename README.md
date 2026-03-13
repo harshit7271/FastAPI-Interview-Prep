@@ -358,6 +358,17 @@ Answer like this:
 
 `Async support in FastAPI allows the server to handle multiple requests concurrently using Python's async and await syntax. It prevents blocking during I/O operations like database queries or external API calls, which improves scalability and performance when serving many users.`
 
+---
+
+# One More Interview Trick Question
+
+They may ask:
+
+***"Should ML inference endpoints always use async?"***
+
+Correct answer:
+
+`Not necessarily. If the endpoint is doing heavy CPU/GPU inference, async may not provide much benefit. Async is mainly useful for I/O operations`
 
 
 
