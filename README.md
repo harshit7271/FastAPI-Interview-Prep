@@ -111,3 +111,20 @@ def predict(data: list):
     
     return {"prediction": prediction.tolist()}
 ```
+
+---
+
+## 5. What is Async in FastAPI and why is it useful?
+
+**Answer**
+
+Async allows FastAPI to handle multiple requests simultaneously without blocking execution.
+
+**Example:**
+
+```python
+@app.get("/data")
+async def get_data():
+    return {"message": "Hello"}
+```
+
