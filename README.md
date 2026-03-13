@@ -350,3 +350,16 @@ When they ask:
 Answer like this:
 
 ``FastAPI is widely used for ML deployment because it supports async execution, automatic validation using Pydantic, high performance through ASGI servers, and auto-generated API documentation. This makes it ideal for exposing machine learning models as production-ready REST APIs.``
+
+---
+# Smart Interview Answer
+
+***If an interviewer asks "What is async support in FastAPI?", answer like this:***
+
+`Async support in FastAPI allows the server to handle multiple requests concurrently using Python's async and await syntax. It prevents blocking during I/O operations like database queries or external API calls, which improves scalability and performance when serving many users.`
+
+
+
+
+
+
